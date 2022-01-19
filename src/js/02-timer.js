@@ -7,7 +7,7 @@ const refs = {
   intervalId: null,
 };
 
-refs.startBtn.disabled = true;
+let deadline = null;
 
 const options = {
   enableTime: true,
@@ -18,6 +18,8 @@ const options = {
     dateCheckFn(selectedDates[0]);
   },
 };
+
+refs.startBtn.disabled = true;
 
 flatpickr('input#datetime-picker', options);
 const inputFp = document.querySelector('input#datetime-picker')._flatpickr;
@@ -34,7 +36,8 @@ function dateCheckFn(deadline) {
 refs.startBtn.addEventListener('click', startCounterFn);
 
 function startCounterFn() {
-  const deadline = inputFp.selectedDates[0];
+  localStorage.setItem('deadline', inputFp.selectedDates[0]);
+  deadline = new Date(localStorage.getItem('deadline'));
   refs.startBtn.disabled = true;
 
   refs.intervalId = setInterval(() => {
@@ -82,3 +85,5 @@ function convertMs(ms) {
 function padAddFn(value) {
   return String(value).padStart(2, '0');
 }
+
+console.log(deadline);
